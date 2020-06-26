@@ -1,1 +1,11 @@
 runtime: go113
+
+main: cmd/web
+
+handlers:
+- url: /static
+  static_dir: static
+- url: /template
+  static_dir: template
+- url: /.*
+  script: auto
