@@ -39,5 +39,9 @@ func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Con
 }
 
 func indexHandler(c echo.Context) error {
-	return c.Render(http.StatusOK, "index.html", "Hello World")
+	return c.Render(http.StatusOK, "index.html", struct{
+		Title string
+	}{
+		Title: "my home page",
+	})
 }
