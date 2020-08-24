@@ -1,6 +1,7 @@
 package app
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -83,6 +84,29 @@ func UpdateHandler(c echo.Context) error {
 	}
 
 	if err := client.books.Find(book.ID).Update(book); err != nil {
+		return err
+	}
+
+	return c.Redirect(http.StatusFound, "/")
+}
+
+func DeleteHandler(c echo.Context) error {
+	if c.Request().Method != "POST" {
+		return fmt.Errorf("invalid method")
+	}
+
+	client, err := NewDBClient()
+	if err != nil {
+		return err
+	}
+
+	res := client.books.Find(c.Param("id"))
+	var book Book
+	if err := res.One(&book); err != nil {
+		return err
+	}
+
+	if err := client.books.Find(book.ID).Delete(); err != nil {
 		return err
 	}
 

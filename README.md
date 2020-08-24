@@ -7,6 +7,12 @@ gcloud app deploy
 
 # development
 
+## run web server
+
+```cmd
+go run cmd/web/main.go
+```
+
 ## run db server
 
 ```cmd

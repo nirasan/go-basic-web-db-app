@@ -15,4 +15,4 @@ services:
     volumes:
       - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
     ports:
-      - 13306:3306
+      - 13307:3306

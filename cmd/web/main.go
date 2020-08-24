@@ -26,6 +26,7 @@ func main() {
 	e.POST("/create", app.CreateHandler)
 	e.GET("/update/:id", app.UpdateHandler)
 	e.POST("/update/:id", app.UpdateHandler)
+	e.POST("/delete/:id", app.DeleteHandler)
 
 	port := os.Getenv("PORT")
 	if port == "" {

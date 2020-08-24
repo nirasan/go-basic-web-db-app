@@ -3,16 +3,31 @@
         <a href="/create">新規作成</a>
     </div>
     <div>
-        <ul>
+        <table>
+            <thead>
+                <tr>
+                    <td>タイトル</td>
+                    <td>作者</td>
+                    <td>値段</td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
             {{ range .Books }}
-                <li>
-                    {{ .Title }}
-                    {{ .Author }}
-                    {{ .Price }}
-                    <a href="/update/{{ .ID }}">編集</a>
-                </li>
+                <tr>
+                    <td>{{ .Title }}</td>
+                    <td>{{ .Author }}</td>
+                    <td>{{ .Price }}</td>
+                    <td>
+                        <a href="/update/{{ .ID }}"><button>編集</button></a>
+                        <form method="POST" action="/delete/{{ .ID }}" name="delete_{{ .ID }}">
+                            <button onclick="document.delete_{{ .ID }}.submit();">削除</button>
+                        </form>
+                    </td>
+                </tr>
             {{ end }}
-        </ul>
+            </tbody>
+        </table>
     </div>
 
 {{template "footer"}}

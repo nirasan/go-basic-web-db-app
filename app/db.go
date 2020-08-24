@@ -15,7 +15,7 @@ type Book struct {
 
 var settings = mysql.ConnectionURL{
 	Database: `booktown`,
-	Host:     `127.0.0.1:13306`,
+	Host:     `127.0.0.1:13307`,
 	User:     `root`,
 	Password: `root`,
 }
