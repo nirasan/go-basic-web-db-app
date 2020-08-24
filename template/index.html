@@ -1,3 +1,18 @@
 {{template "header" .}}
-    <h3>hello world</h3>
+    <div>
+        <a href="/create">新規作成</a>
+    </div>
+    <div>
+        <ul>
+            {{ range .Books }}
+                <li>
+                    {{ .Title }}
+                    {{ .Author }}
+                    {{ .Price }}
+                    <a href="/update/{{ .ID }}">編集</a>
+                </li>
+            {{ end }}
+        </ul>
+    </div>
+
 {{template "footer"}}

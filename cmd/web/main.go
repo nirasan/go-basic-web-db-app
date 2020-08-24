@@ -1,12 +1,13 @@
 package main
 
 import (
-	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
 	"html/template"
 	"io"
-	"net/http"
 	"os"
+
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
+	"github.com/nirasan/go-basic-web-db-app/app"
 )
 
 func main() {
@@ -20,14 +21,18 @@ func main() {
 	}
 	e.Renderer = t
 
-	e.GET("/", indexHandler)
+	e.GET("/", app.IndexHandler)
+	e.GET("/create", app.CreateHandler)
+	e.POST("/create", app.CreateHandler)
+	e.GET("/update/:id", app.UpdateHandler)
+	e.POST("/update/:id", app.UpdateHandler)
 
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"
 		e.Logger.Printf("Defaulting to port %s", port)
 	}
-	e.Logger.Fatal(e.Start(":"+port))
+	e.Logger.Fatal(e.Start(":" + port))
 }
 
 type Template struct {
@@ -36,12 +41,4 @@ type Template struct {
 
 func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Context) error {
 	return t.templates.ExecuteTemplate(w, name, data)
-}
-
-func indexHandler(c echo.Context) error {
-	return c.Render(http.StatusOK, "index.html", struct{
-		Title string
-	}{
-		Title: "my home page",
-	})
 }

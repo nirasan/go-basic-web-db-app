@@ -3,7 +3,7 @@ CREATE DATABASE booktown DEFAULT CHARACTER SET utf8mb4;
 CREATE TABLE books (
     id INT(11) AUTO_INCREMENT NOT NULL,
     title VARCHAR(512) NOT NULL,
-    author_id INTEGER,
-    subject_id INTEGER,
+    author VARCHAR(512) NOT NULL,
+    price INTEGER NOT NULL,
     PRIMARY KEY (id)
 ) CHARACTER SET utf8mb4;

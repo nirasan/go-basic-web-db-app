@@ -1,0 +1,15 @@
+{{template "header" .}}
+	<form method="POST">
+		<label for="input_title">タイトル</label>
+		<input type="text" name="title" id="input_title" value="{{ if .Book }}{{ .Book.Title }}{{ end }}" />
+		<br />
+		<label for="input_author">筆者</label>
+		<input type="text" name="author" id="input_author" value="{{ if .Book }}{{ .Book.Author }}{{ end }}" />
+		<br />
+		<label for="input_price">値段</label>
+		<input type="text" name="price" id="input_price" value="{{ if .Book }}{{ .Book.Price }}{{ end }}" />
+		<br />
+		<input type="submit" />
+	</form>
+
+{{template "footer"}}
