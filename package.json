@@ -1,0 +1,29 @@
+{
+  "name": "go-basic-web-db-app",
+  "version": "1.0.0",
+  "description": "```cmd gcloud config set project go-basic-web-db-app gcloud app deploy ```",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nirasan/go-basic-web-db-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nirasan/go-basic-web-db-app/issues"
+  },
+  "homepage": "https://github.com/nirasan/go-basic-web-db-app#readme",
+  "devDependencies": {
+    "css-loader": "^4.2.2",
+    "mini-css-extract-plugin": "^0.10.0",
+    "sass": "^1.26.10",
+    "sass-loader": "^10.0.1",
+    "style-loader": "^1.2.1",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12"
+  }
+}
