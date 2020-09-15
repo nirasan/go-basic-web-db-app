@@ -4,7 +4,8 @@
   "description": "```cmd gcloud config set project go-basic-web-db-app gcloud app deploy ```",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "webpack": "npx webpack"
   },
   "repository": {
     "type": "git",

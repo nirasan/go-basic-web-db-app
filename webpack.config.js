@@ -5,7 +5,7 @@ module.exports = {
     entry: './assets/js/index.js',
     output: {
         filename: 'main.js',
-        path: __dirname + "/dist/",
+        path: __dirname + "/static/",
     },
     module: {
         rules: [
