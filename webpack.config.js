@@ -6,6 +6,7 @@ module.exports = {
     output: {
         filename: 'main.js',
         path: __dirname + "/static/",
+        libraryTarget: 'window'
     },
     module: {
         rules: [

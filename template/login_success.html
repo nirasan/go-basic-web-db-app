@@ -1,0 +1,23 @@
+{{template "header"}}
+
+<form method="post" id="successForm">
+	<input type="hidden" name="token" />
+</form>
+
+<script>
+    firebaseInit();
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            console.log("user is exists");
+            user.getIdToken().then(function(idToken) {
+                console.log("send token:" + idToken);
+                const form = document.getElementById("successForm");
+                form.token.value = idToken;
+                form.submit();
+            });
+        } else {
+            console.log("user is not exists");
+            document.location.href = "/login";
+        }
+    });
+</script>

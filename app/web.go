@@ -3,7 +3,9 @@ package app
 import (
 	"fmt"
 	"net/http"
+	"time"
 
+	firebase "firebase.google.com/go"
 	"github.com/labstack/echo/v4"
 )
 
@@ -111,4 +113,63 @@ func DeleteHandler(c echo.Context) error {
 	}
 
 	return c.Redirect(http.StatusFound, "/")
+}
+
+func LoginHandler(c echo.Context) error {
+	return c.Render(http.StatusOK, "login.html", struct {
+	}{})
+}
+
+func LoginSuccessHandler(c echo.Context) error {
+	if c.Request().Method == http.MethodGet {
+		return c.Render(http.StatusOK, "login_success.html", struct {
+		}{})
+	}
+
+	ctx := c.Request().Context()
+	app, err := firebase.NewApp(ctx, nil)
+	if err != nil {
+		return err
+	}
+	client, err := app.Auth(ctx)
+	if err != nil {
+		return err
+	}
+
+	idToken := c.FormValue("token")
+	expiresIn := time.Hour * 24 * 5
+
+	sessionCookie, err := client.SessionCookie(ctx, idToken, expiresIn)
+	if err != nil {
+		return err
+	}
+
+	cookie := new(http.Cookie)
+	cookie.Name = "session"
+	cookie.Value = sessionCookie
+	cookie.Expires = time.Now().Add(24 * time.Hour)
+	c.SetCookie(cookie)
+	return c.Redirect(http.StatusFound, "/")
+}
+
+func UserHandler(c echo.Context) error {
+	ctx := c.Request().Context()
+	app, err := firebase.NewApp(ctx, nil)
+	if err != nil {
+		return err
+	}
+	client, err := app.Auth(ctx)
+	if err != nil {
+		return err
+	}
+
+	cookie, err := c.Cookie("session")
+	if err != nil {
+		return err
+	}
+	decoded, err := client.VerifySessionCookieAndCheckRevoked(ctx, cookie.Value)
+	if err != nil {
+		return err
+	}
+	return c.String(http.StatusOK, fmt.Sprintf("%+v", decoded))
 }

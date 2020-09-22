@@ -27,6 +27,10 @@ func main() {
 	e.GET("/update/:id", app.UpdateHandler)
 	e.POST("/update/:id", app.UpdateHandler)
 	e.POST("/delete/:id", app.DeleteHandler)
+	e.GET("/login", app.LoginHandler)
+	e.GET("/login_success", app.LoginSuccessHandler)
+	e.POST("/login_success", app.LoginSuccessHandler)
+	e.GET("/user", app.UserHandler)
 
 	port := os.Getenv("PORT")
 	if port == "" {

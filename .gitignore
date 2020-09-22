@@ -27,3 +27,4 @@
 
 /dist/
 /node_modules/
+.envrc

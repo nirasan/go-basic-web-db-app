@@ -26,5 +26,9 @@
     "style-loader": "^1.2.1",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12"
+  },
+  "dependencies": {
+    "firebase": "^7.21.0",
+    "firebaseui": "^4.6.1"
   }
 }
