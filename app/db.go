@@ -6,6 +6,11 @@ import (
 	"upper.io/db.v3/mysql"
 )
 
+type User struct {
+	ID   string `db:"id"`
+	Name string `db:"name"`
+}
+
 type Book struct {
 	ID     uint   `db:"id" form:"id"`
 	Title  string `db:"title" form:"title"`
@@ -23,6 +28,7 @@ var settings = mysql.ConnectionURL{
 type DBClient struct {
 	sess  sqlbuilder.Database
 	books db.Collection
+	users db.Collection
 }
 
 func NewDBClient() (*DBClient, error) {
@@ -33,6 +39,7 @@ func NewDBClient() (*DBClient, error) {
 	return &DBClient{
 		sess:  sess,
 		books: sess.Collection("books"),
+		users: sess.Collection("users"),
 	}, nil
 }
 

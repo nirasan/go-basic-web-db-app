@@ -30,6 +30,7 @@ func main() {
 	e.GET("/login", app.LoginHandler)
 	e.GET("/login_success", app.LoginSuccessHandler)
 	e.POST("/login_success", app.LoginSuccessHandler)
+	e.GET("/logout", app.LogoutHandler)
 	e.GET("/user", app.UserHandler)
 
 	port := os.Getenv("PORT")

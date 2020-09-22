@@ -2,6 +2,7 @@
 
 <form method="post" id="successForm">
 	<input type="hidden" name="token" />
+    <input type="hidden" name="username" />
 </form>
 
 <script>
@@ -13,6 +14,7 @@
                 console.log("send token:" + idToken);
                 const form = document.getElementById("successForm");
                 form.token.value = idToken;
+                form.username.value = user.displayName;
                 form.submit();
             });
         } else {

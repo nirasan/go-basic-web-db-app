@@ -136,20 +136,61 @@ func LoginSuccessHandler(c echo.Context) error {
 		return err
 	}
 
+	// get token
 	idToken := c.FormValue("token")
 	expiresIn := time.Hour * 24 * 5
 
+	// verify token
+	decoded, err := client.VerifyIDToken(ctx, idToken)
+	if err != nil {
+		return err
+	}
+	// Return error if the sign-in is older than 5 minutes.
+	if time.Now().Unix()-int64(decoded.Claims["auth_time"].(float64)) > 5*60 {
+		return fmt.Errorf("Recent sign-in required")
+	}
+
+	// set token to cookie
 	sessionCookie, err := client.SessionCookie(ctx, idToken, expiresIn)
 	if err != nil {
 		return err
 	}
-
 	cookie := new(http.Cookie)
 	cookie.Name = "session"
 	cookie.Value = sessionCookie
 	cookie.Expires = time.Now().Add(24 * time.Hour)
 	c.SetCookie(cookie)
-	return c.Redirect(http.StatusFound, "/")
+
+	// create User if not exists
+	dbclient, err := NewDBClient()
+	if err != nil {
+		return err
+	}
+	ok, err := dbclient.users.Find("id", decoded.UID).Exists()
+	if err != nil {
+		return err
+	}
+	if !ok {
+		_, err := dbclient.users.Insert(&User{
+			ID:   decoded.UID,
+			Name: c.FormValue("username"),
+		})
+		if err != nil {
+			return err
+		}
+	}
+
+	return c.Redirect(http.StatusFound, "/user")
+}
+
+func LogoutHandler(c echo.Context) error {
+	cookie := new(http.Cookie)
+	cookie.Name = "session"
+	cookie.Value = ""
+	cookie.MaxAge = 0
+	c.SetCookie(cookie)
+
+	return c.Redirect(http.StatusFound, "/user")
 }
 
 func UserHandler(c echo.Context) error {
@@ -171,5 +212,15 @@ func UserHandler(c echo.Context) error {
 	if err != nil {
 		return err
 	}
-	return c.String(http.StatusOK, fmt.Sprintf("%+v", decoded))
+
+	dbclient, err := NewDBClient()
+	if err != nil {
+		return err
+	}
+	var user User
+	if err := dbclient.users.Find("id", decoded.UID).One(&user); err != nil {
+		return err
+	}
+
+	return c.String(http.StatusOK, fmt.Sprintf("%+v", user))
 }

@@ -7,3 +7,9 @@ CREATE TABLE books (
     price INTEGER NOT NULL,
     PRIMARY KEY (id)
 ) CHARACTER SET utf8mb4;
+
+CREATE TABLE users (
+    id VARCHAR(512) NOT NULL,
+    name VARCHAR(512) NOT NULL,
+    PRIMARY KEY (id)
+) CHARACTER SET utf8mb4;
